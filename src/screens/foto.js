@@ -3,25 +3,12 @@ import { Button, View, Text, StyleSheet, TouchableHighlight, Image } from 'react
 import MapView from 'react-native-maps';
 import Camera from 'react-native-camera';
 import { RNCamera } from 'react-native-camera';
-export default class PuntoEncuentro extends Component {
+export default class foto extends Component {
   
   render() {
     return (
-        <View style={styles.container}>
-        <MapView
-        style={styles.map}
-        region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-        }}
-        >
-        </MapView>
-        
-          <Image style={styles.camera} source={require ('../images/camera-logo.png')} />
-          
-          <RNCamera
+      <View style={styles.container}>
+        <RNCamera
           ref={ref => {
             this.camera = ref;
           }}
@@ -44,10 +31,15 @@ export default class PuntoEncuentro extends Component {
             console.log(barcodes);
           }}
         />
-        
+        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.capture}>
+            <Text style={{ fontSize: 14 }}> SNAP </Text>
+          </TouchableHighlight>
         </View>
-    )
+      </View>
+    );
   }
+
   takePicture = async function() {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
@@ -56,23 +48,25 @@ export default class PuntoEncuentro extends Component {
     }
   };
 }
+
 const styles = StyleSheet.create({
-    container: {
-      height: '100%',
-      backgroundColor: '#FF5C4F',
-      alignItems: 'center',
-    },
-    map: {
-      height: '65%',
-      width: '95%',
-      margin: 2,
-      marginTop: 5,
-      backgroundColor: '#999'
-    },
-    camera: {
-      flex: 1,
-      width: 100,
-      height: 100,
-      resizeMode: 'contain'
-    }
-   });
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20,
+  },
+});
