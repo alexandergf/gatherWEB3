@@ -35,7 +35,7 @@ const AppNavigator = createStackNavigator(
         foto
     },
     {
-        initialRouteName: 'PuntoEncuentro'
+        initialRouteName: 'Home'
     }
 );
 const app = createAppContainer(AppNavigator);
