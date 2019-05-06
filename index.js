@@ -18,8 +18,6 @@ import UnirseGrupo from './src/screens/UnirseGrupo';
 import Mapa from './src/screens/Mapa';
 import PuntoEncuentro from './src/screens/PuntoEncuentro';
 import GestionarMiembros from './src/screens/GestionarMiembros';
-import foto from './src/screens/foto';
-
 
 const AppNavigator = createStackNavigator(
     {
