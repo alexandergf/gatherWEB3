@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import {ImageBackground, Button, View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 export default class Home extends Component {
     static navigationOptions = () => {
@@ -14,18 +14,14 @@ export default class Home extends Component {
       };
   render() {
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
+            <Image style={styles.logo} source={require ('../images/Logo.png')} />
             <View style={styles.butt}>
                 <TouchableHighlight style={styles.iTouch} onPress={() => this.props.navigation.navigate('LogIn')}>
-                    <Text style={styles.iniText}>INICIAR SESIÓN</Text>
+                    <Text style={styles.iniText}>EMPEZAR</Text>
                 </TouchableHighlight> 
             </View> 
-            <View style={styles.butt}>   
-                <TouchableHighlight style={styles.rTouch} onPress={() => this.props.navigation.navigate('AddUser')}>
-                    <Text style={styles.iniText}>REGISTRARSE</Text>
-                </TouchableHighlight> 
-            </View>
-        </View>
+        </ImageBackground>
     )
   }
 }
@@ -34,7 +30,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        backgroundColor: '#FF5C4F',
+        resizeMode: 'cover',
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        resizeMode: 'stretch',
     },
     butt: {
         margin: 20,

@@ -54,59 +54,56 @@ export default class AddUser extends Component {
 
   render() {
     return (
-      <View style={styles.main}>
-        <Text style={styles.title}>Add User</Text>
-        <TextInput style={styles.itemInput} onChange={this.handleChange} />
-        <TextInput style={styles.itemInput} onChange={this.handleChange2} secureTextEntry={true} />
-        <TouchableHighlight
-          style={styles.button}
-          underlayColor="white"
-          onPress={this.handleSubmit}
-        >
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableHighlight>
+      <View style={styles.container}>
+        <View style={styles.input}>
+          <Text style={styles.inputText}>Email</Text>
+          <TextInput style={styles.Textinput}
+            //value={"Email"}
+            onChangeText={this.handleChange} />
+          <Text style={styles.inputText}>Contraseña</Text>
+          <TextInput style={styles.Textinput}
+            //value={"Password"}
+            onChangeText={this.handleChange2} />
+        </View>
+        <View style={styles.iniBut}>
+          <TouchableHighlight style={styles.touch} onPress={this.submit}>
+            <Text style={styles.iniText}>REGISTRARSE</Text>
+          </TouchableHighlight> 
+        </View>
       </View>
     );
   }
 }
-const styles = StyleSheet.create({  
-    main: {
-      flex: 1,
-      padding: 30,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      backgroundColor: '#6565fc'
-    },
-    title: {
-      marginBottom: 20,
-      fontSize: 25,
-      textAlign: 'center'
-    },
-    itemInput: {
-      height: 50,
-      padding: 4,
-      marginRight: 5,
-      fontSize: 23,
-      borderWidth: 1,
-      borderColor: 'white',
-      borderRadius: 8,
-      color: 'white'
-    },
-    buttonText: {
-      fontSize: 18,
-      color: '#111',
-      alignSelf: 'center'
-    },
-    button: {
-      height: 45,
-      flexDirection: 'row',
-      backgroundColor: 'white',
-      borderColor: 'white',
-      borderWidth: 1,
-      borderRadius: 8,
-      marginBottom: 10,
-      marginTop: 10,
-      alignSelf: 'stretch',
-      justifyContent: 'center'
-    }
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    backgroundColor: '#FF5C4F',
+  },
+  input: {
+    textAlign: 'left',
+    width: '50%',
+  },
+  inputText: {
+    color: '#ffffff',
+    opacity: 80,
+  },
+  Textinput: {
+    padding: 3,
+    backgroundColor: '#ffffff',
+    color: 'grey',
+  },
+  iniBut: {
+    margin: 20,
+    width: '50%',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  iniText: {
+    textAlign: 'center',
+    color: '#ffffff',
+  },
+  touch: {
+    padding: 20,
+  },
 });
