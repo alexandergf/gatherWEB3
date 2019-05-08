@@ -35,7 +35,7 @@ const AppNavigator = createStackNavigator(
         foto
     },
     {
-        initialRouteName: 'Home'
+        initialRouteName: 'AddUser'
     }
 );
 const app = createAppContainer(AppNavigator);
