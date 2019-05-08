@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
-
+import firebase from 'firebase';  
+import { db } from '../config';
 export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      email: props.navigation.getParam('email', 'no em')
+      currentUser: []
     }
   }
-  
+  componentDidMount() {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+    //<Text>Hi! {this.state.currentUser.email}</Text>
+  }
     render() {
         return (
           <View style={styles.container}>
             <View style={styles.cGrup}>
-              <TouchableHighlight style={styles.cTouch} onPress={() => this.props.navigation.navigate('CrearGrupo',{email:this.state.email})}>
+              <TouchableHighlight style={styles.cTouch} onPress={() => this.props.navigation.navigate('CrearGrupo')}>
                 <Text style={styles.cText}>CREAR GRUPO</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.uGrup}>
-              <TouchableHighlight style={styles.uTouch} onPress={() => this.props.navigation.navigate('UnirseGrupo',{email:this.state.email})}>
+              <TouchableHighlight style={styles.uTouch} onPress={() => this.props.navigation.navigate('UnirseGrupo')}>
                 <Text style={styles.uText}>UNIRSE A GRUPO</Text>
               </TouchableHighlight>
             </View>

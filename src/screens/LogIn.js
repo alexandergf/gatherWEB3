@@ -1,12 +1,7 @@
 import React, { Component } from 'react';  
 import { View, Text, StyleSheet, TextInput, TouchableHighlight, ImageBackground } from 'react-native';
-import ItemComponent from '../components/ItemComponent';
 import firebase from 'firebase';  
-
 import { db } from '../config';
-//import console = require('console');
-
-let itemsRef = db.ref('/Users');
 
 export default class LogIn extends Component {  
       constructor(){
@@ -14,8 +9,6 @@ export default class LogIn extends Component {
         this.state = {
           email: '',
           pass: '',
-          items: [],
-          key: '',
         }
       }
       static navigationOptions = ({ navigation }) => {
@@ -24,13 +17,6 @@ export default class LogIn extends Component {
           title: `Login`,
         };
       };
-      componentDidMount() {
-        itemsRef.on('value', snapshot => {
-          let data = snapshot.val();
-          let items = Object.values(data);
-          this.setState({ items });
-        });
-      }
       onChangeEmail = (text) => {
         this.setState({ email: text});
       }
@@ -38,24 +24,32 @@ export default class LogIn extends Component {
         this.setState({ pass: text});
       }
       submitReg = () => {
-        if(this.state.pass.length <6){
-          alert("La contraseña tiene que tener 6 caracteres.");
-          return;
-        }
-        firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass);
+        firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass)
+        .then(this.onLoginSuccess())
+        .catch((error) => {
+          this.onLoginFailure(error);
+        });
+        /*firebase.auth().onAuthStateChanged(user => {
+          alert(user.email);
+       })*/
       }
       submitIni = () => {
-        //firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass);
-        alert("Hi");
-        try{
-          firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.pass).then(function (user) {
-            alert(user)
-          })
-        }catch (error){
-          console.log(error.toString());
-        }
+        firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.pass)
+        .then(this.onLoginSuccess())
+        .catch((error) => {
+          this.onLoginFailure(error);
+        });
+          /*firebase.auth().onAuthStateChanged(user => {
+            this.props.navigation.navigate('LogIn',{email:user.email});
+         })*/
+        
       }
-
+      onLoginSuccess = () => {
+        this.props.navigation.navigate('HomeLogIn')
+      }
+      onLoginFailure = (errorMessage) => {
+        alert(errorMessage);
+      }
   render() {
     return (
       <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
