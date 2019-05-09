@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableHighlight, ImageBackground } from 'react-native';
 import firebase from 'firebase';  
 import { db } from '../config';
+let addItem = state => {  
+  db.ref('/Users').push({
+    email: state.email,
+    grupo: '',
+    active: false,
+  });    
+};
 
 export default class LogIn extends Component {  
       constructor(){
@@ -25,7 +32,7 @@ export default class LogIn extends Component {
       }
       submitReg = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass)
-        .then(this.onLoginSuccess())
+        .then(this.onRegSuccess())
         .catch((error) => {
           this.onLoginFailure(error);
         });
@@ -45,6 +52,10 @@ export default class LogIn extends Component {
         
       }
       onLoginSuccess = () => {
+        this.props.navigation.navigate('HomeLogIn')
+      }
+      onRegSuccess = () => {
+        addItem(this.state);
         this.props.navigation.navigate('HomeLogIn')
       }
       onLoginFailure = (errorMessage) => {
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
-    backgroundColor: '#FF5C4F',
+    resizeMode: 'cover',
   },
   input: {
     textAlign: 'left',

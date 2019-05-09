@@ -7,13 +7,14 @@
 */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput, View, Image,TouchableHighlight} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHighlight} from 'react-native';
 import { db } from '../config';
 
-let addGrup = state => {  
+let addGrup = (state) => {  
     db.ref('/Group').push({
       name: state.name,
       id: state.id,
+      admin: state.email,
     });
 };
 let groupRef = db.ref('/Group');
@@ -24,7 +25,8 @@ export default class CrearGrupo extends Component{
     this.state = {
       name: '',
       id: 0,
-      items: []
+      items: [],
+      email: this.props.navigation.getParam(email, 'No email'),
     }
   }
   componentDidMount() {
@@ -63,7 +65,7 @@ export default class CrearGrupo extends Component{
       })
     }
     return (
-      <View style={styles.container}>
+      <ImageBackground source={require('../images/fondo.png')}  style={styles.container}>
         <View style={styles.input}>
           <Text style={styles.inputText}>Nombre del grupo:</Text>
           <TextInput style={styles.Textinput}
@@ -77,7 +79,7 @@ export default class CrearGrupo extends Component{
             <Text style={styles.cText}>CREAR GRUPO</Text>
           </TouchableHighlight> 
         </View>
-      </View>
+      </ImageBackground>
       );
     }
   }
@@ -87,7 +89,7 @@ export default class CrearGrupo extends Component{
       alignItems: 'center',
       justifyContent: 'center',
       height: '100%',
-      backgroundColor: '#FF5C4F',
+      resizeMode: 'cover',
     },
     input: {
       textAlign: 'left',

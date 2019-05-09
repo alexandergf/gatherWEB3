@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { ImageBackground, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import firebase from 'firebase';  
 import { db } from '../config';
 export default class Home extends Component {
@@ -16,9 +16,9 @@ export default class Home extends Component {
   }
     render() {
         return (
-          <View style={styles.container}>
+          <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
             <View style={styles.cGrup}>
-              <TouchableHighlight style={styles.cTouch} onPress={() => this.props.navigation.navigate('CrearGrupo')}>
+              <TouchableHighlight style={styles.cTouch} onPress={() => this.props.navigation.navigate('CrearGrupo',{email: this.state.currentUser.email})}>
                 <Text style={styles.cText}>CREAR GRUPO</Text>
               </TouchableHighlight>
             </View>
@@ -27,7 +27,7 @@ export default class Home extends Component {
                 <Text style={styles.uText}>UNIRSE A GRUPO</Text>
               </TouchableHighlight>
             </View>
-          </View>
+          </ImageBackground>
           );
         }
       }
@@ -37,7 +37,7 @@ export default class Home extends Component {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
-          backgroundColor: '#FF5C4F',
+          resizeMode: 'cover',
         },
         cGrup: {
           width: '50%',

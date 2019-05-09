@@ -7,34 +7,19 @@
 */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput, View, Image,TouchableHighlight} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHighlight} from 'react-native';
 
 import { db } from '../config';
-let addGrup = state => {  
-  db.ref('/Users/-LdoQkDPwIkKpBU8vFtB').set({
-    email: state.email,
-    password: state.password,
-    grupo: state.id
-  });
-};
+let acceptedRef = db.ref('/Accepted');
 let groupRef = db.ref('/Group');
 export default class UnirseGrupo extends Component{
   constructor(){
     super();
     this.state = {
+      idGroup: '',
       email: '',
-      password: '',
-      id: '',
-      items: []
+      admin: ''
     }
-  }
-  
-  componentDidMount() {
-    groupRef.on('value', snapshot => {
-      let data = snapshot.val();
-      let items = Object.values(data);
-      this.setState({ items });
-    });
   }
   handleChange = e => {
     this.setState({
@@ -43,13 +28,9 @@ export default class UnirseGrupo extends Component{
   };
   submit = () => {
     var look = false;
-    this.state.items.map((item, index) => {
-      if (item.id == this.state.id){
-        look=true;
-      } 
-    })
+    
     if(look == true){
-      addGrup(this.state);
+      
       alert('Usuario añadido correctamente');
     } else {
       alert('Grupo no existente');
@@ -57,7 +38,7 @@ export default class UnirseGrupo extends Component{
   };
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
         <View style={styles.input}>
           <Text style={styles.inputText}>Id del grupo:</Text>
           <TextInput style={styles.Textinput}
@@ -69,7 +50,7 @@ export default class UnirseGrupo extends Component{
             <Text style={styles.uText}>UNIRSE AL GRUPO</Text>
           </TouchableHighlight> 
         </View>
-      </View>
+      </ImageBackground>
       );
     }
   }
@@ -79,7 +60,7 @@ export default class UnirseGrupo extends Component{
       alignItems: 'center',
       justifyContent: 'center',
       height: '100%',
-      backgroundColor: '#FF5C4F',
+      resizeMode: 'cover',
     },
     input: {
       textAlign: 'left',

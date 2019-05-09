@@ -9,7 +9,6 @@ import {
     createAppContainer
 } from 'react-navigation';
 import Home from './src/screens/Home';
-import AddUser from './src/screens/AddUser';
 import LogIn from './src/screens/LogIn';
 import HomeLogIn from './src/screens/HomeLogIn';
 import CrearGrupo from './src/screens/CrearGrupo';
@@ -18,7 +17,6 @@ import Mapa from './src/screens/Mapa';
 import PuntoEncuentro from './src/screens/PuntoEncuentro';
 import GestionarMiembros from './src/screens/GestionarMiembros';
 import foto from './src/screens/foto';
-import Loading from './src/screens/Loading';
 
 const AppNavigator = createStackNavigator(
     {
@@ -30,11 +28,10 @@ const AppNavigator = createStackNavigator(
         Mapa,
         PuntoEncuentro,
         GestionarMiembros,
-        foto,
-        Loading
+        foto
     },
     {
-        initialRouteName: 'LogIn',
+        initialRouteName: 'Home',
         defaultNavigationOptions: {
            // headerBackImage: require('./src/images/BannerTop-06.png'),
         },
