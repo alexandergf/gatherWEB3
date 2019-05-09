@@ -11,7 +11,17 @@ import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHi
 
 import { db } from '../config';
 let acceptedRef = db.ref('/Accepted');
-let groupRef = db.ref('/Group');
+let groupRef = db.ref('/Group').equalTo(1);
+/*
+var rootRef = firebase.database().ref();
+var ref = rootRef.child("items");
+ref.once("value").then(function(snapshot) {
+   snapshot.forEach(function(childSnapshot) {
+     var key = childSnapshot.key;
+     var childData = childSnapshot.val();
+   });
+});
+*/
 export default class UnirseGrupo extends Component{
   constructor(){
     super();
@@ -20,6 +30,16 @@ export default class UnirseGrupo extends Component{
       email: '',
       admin: ''
     }
+  }
+  prova = () => {
+    groupRef.once("value").then(function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        let key = childSnapshot.key;
+        let childData = childSnapshot.val().name;
+        alert(key + childData)
+      })
+    })
+      //snapshot.val() !== null  //  equalTo().
   }
   handleChange = e => {
     this.setState({
@@ -46,7 +66,7 @@ export default class UnirseGrupo extends Component{
              />
         </View>
         <View style={styles.uBut}>
-          <TouchableHighlight style={styles.touch} onPress={this.submit}>
+          <TouchableHighlight style={styles.touch} onPress={this.prova}>
             <Text style={styles.uText}>UNIRSE AL GRUPO</Text>
           </TouchableHighlight> 
         </View>

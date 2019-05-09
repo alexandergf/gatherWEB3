@@ -31,7 +31,7 @@ const AppNavigator = createStackNavigator(
         foto
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'UnirseGrupo',
         defaultNavigationOptions: {
            // headerBackImage: require('./src/images/BannerTop-06.png'),
         },
