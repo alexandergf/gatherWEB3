@@ -7,6 +7,7 @@ let addItem = state => {
     email: state.email,
     grupo: '',
     active: false,
+    admin: false,
   });    
 };
 
@@ -36,27 +37,20 @@ export default class LogIn extends Component {
         .catch((error) => {
           this.onLoginFailure(error);
         });
-        /*firebase.auth().onAuthStateChanged(user => {
-          alert(user.email);
-       })*/
       }
       submitIni = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.pass)
         .then(this.onLoginSuccess())
         .catch((error) => {
           this.onLoginFailure(error);
-        });
-          /*firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate('LogIn',{email:user.email});
-         })*/
-        
+        });        
       }
       onLoginSuccess = () => {
-        this.props.navigation.navigate('HomeLogIn')
+        this.props.navigation.replace('HomeLogIn')
       }
       onRegSuccess = () => {
         addItem(this.state);
-        this.props.navigation.navigate('HomeLogIn')
+        this.props.navigation.replace('HomeLogIn')
       }
       onLoginFailure = (errorMessage) => {
         alert(errorMessage);

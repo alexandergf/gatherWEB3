@@ -17,6 +17,7 @@ import Mapa from './src/screens/Mapa';
 import PuntoEncuentro from './src/screens/PuntoEncuentro';
 import GestionarMiembros from './src/screens/GestionarMiembros';
 import foto from './src/screens/foto';
+import Loading from './src/screens/Loading';
 
 const AppNavigator = createStackNavigator(
     {
@@ -28,10 +29,11 @@ const AppNavigator = createStackNavigator(
         Mapa,
         PuntoEncuentro,
         GestionarMiembros,
-        foto
+        foto,
+        Loading
     },
     {
-        initialRouteName: 'UnirseGrupo',
+        initialRouteName: 'Loading',
         defaultNavigationOptions: {
            // headerBackImage: require('./src/images/BannerTop-06.png'),
         },
