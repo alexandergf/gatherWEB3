@@ -9,15 +9,26 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHighlight} from 'react-native';
 import { db } from '../config';
+import firebase from 'firebase';  
 
 let addGrup = (state) => {  
     db.ref('/Group').push({
       name: state.name,
       id: state.id,
-      admin: state.email,
     });
 };
+
 let groupRef = db.ref('/Group');
+
+let modifyUser = (state) => {
+    db.ref('/Users/'+state.currentUser.uid).set({
+      email: state.currentUser.email,
+      active: true,
+      admin: true,
+      grupo: state.id
+    })
+}
+
 export default class CrearGrupo extends Component{
 
   constructor(){
@@ -26,10 +37,13 @@ export default class CrearGrupo extends Component{
       name: '',
       id: 0,
       items: [],
-      email: this.props.navigation.getParam(email, 'No email'),
+      user: [],
+      currentUser: [],
     }
   }
   componentDidMount() {
+      const { currentUser } = firebase.auth()
+      this.setState({ currentUser })
       groupRef.on('value', snapshot => {
         let data = snapshot.val();
         let items = Object.values(data);
@@ -42,6 +56,7 @@ export default class CrearGrupo extends Component{
     });
   };
   submit = () => {
+    alert(this.state.user.email);
     var look = false;
     this.state.items.map((item, index) => {
       if (item.name == this.state.name && item.id == this.state.id){
@@ -51,7 +66,9 @@ export default class CrearGrupo extends Component{
     })
     if(look == false){
       addGrup(this.state);
+      modifyUser(this.state);
       alert('Grupo Registrado correctamente');
+      this.props.navigation.replace('Mapa');
     }
   };
   render() {

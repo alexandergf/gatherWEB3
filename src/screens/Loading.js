@@ -6,7 +6,7 @@ import { Navigation } from 'react-navigation';
 export default class Loading extends Component {  
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.props.navigation.replace(user ? 'Home' : 'HomeLogIn')
+      this.props.navigation.replace(user==null ? 'Home' : 'HomeLogIn')
     })
   }   
  

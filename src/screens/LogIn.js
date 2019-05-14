@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableHighlight, ImageBackground } from 'react-native';
 import firebase from 'firebase';  
 import { db } from '../config';
-let addItem = state => {  
-  db.ref('/Users').push({
-    email: state.email,
-    grupo: '',
-    active: false,
-    admin: false,
-  });    
-};
 
 export default class LogIn extends Component {  
       constructor(){
@@ -17,6 +9,7 @@ export default class LogIn extends Component {
         this.state = {
           email: '',
           pass: '',
+          //currentUser: []
         }
       }
       static navigationOptions = ({ navigation }) => {
@@ -33,7 +26,9 @@ export default class LogIn extends Component {
       }
       submitReg = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass)
-        .then(this.onRegSuccess())
+        .then((res) => {
+          this.onRegSuccess(res.user.uid);
+        })
         .catch((error) => {
           this.onLoginFailure(error);
         });
@@ -48,8 +43,13 @@ export default class LogIn extends Component {
       onLoginSuccess = () => {
         this.props.navigation.replace('HomeLogIn')
       }
-      onRegSuccess = () => {
-        addItem(this.state);
+      onRegSuccess = (id) => {
+        db.ref('Users/'+id).set({
+          email: this.state.email,
+          grupo: '',
+          active: false,
+          admin: false,
+        }); 
         this.props.navigation.replace('HomeLogIn')
       }
       onLoginFailure = (errorMessage) => {
