@@ -3,6 +3,12 @@ import { Button, View, Text, StyleSheet, TouchableHighlight } from 'react-native
 import MapView from 'react-native-maps';
 
 export default class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      idGroup: this.props.navigation.getParam('g', 'NO_GRUP'),
+    }
+  }
   render() {
     return (
         <View style={styles.container}>
@@ -18,8 +24,8 @@ export default class Home extends Component {
         </MapView>
         <View style={styles.bottomMap}>
           <View style={styles.grup}>
-            <Text style={styles.grupText}>GRUPO: 999999</Text>
-            <TouchableHighlight style={styles.gTouch} onPress={()=>alert('SavePoint')}>
+            <Text style={styles.grupText}>GRUPO: {this.state.idGroup}</Text>
+            <TouchableHighlight style={styles.gTouch} onPress={()=>this.props.navigation.navigate('GestionarMiembros',{group: this.state.idGroup})}>
               <Text style={styles.gText}>GESTIONAR GRUPO</Text>
             </TouchableHighlight> 
           </View>

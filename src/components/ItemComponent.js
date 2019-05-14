@@ -1,21 +1,54 @@
 import React, { Component } from 'react';  
-import { View, Text, StyleSheet } from 'react-native';  
+import { View, Text, StyleSheet,Button } from 'react-native';  
 import PropTypes from 'prop-types';
-
+import { db } from '../config';
+import firebase from 'firebase';  
+let modifyUser = (id) => {
+  const rootRef = db.ref();
+  const oneReef = rootRef.child('Users').orderByChild('email').equalTo(id);
+  oneReef.on('value', snapshot => {
+    let data = snapshot.val();
+    let items = Object.values(data);
+    items.map((item, index) => {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        db.ref('/Users/'+key).update({
+          active: true,
+        })
+      });
+    })
+  });
+}
 export default class ItemComponent extends Component {  
   static propTypes = {
-    items: PropTypes.array.isRequired
+    items: PropTypes.array.isRequired,
+    grupo: PropTypes.string.isRequired,
   };
+
+  submit = (id) => {
+    modifyUser(id);
+  }
 
   render() {
     return (
       <View style={styles.itemsList}>
         {this.props.items.map((item, index) => {
-          return (
-            <View key={index}>
-              <Text style={styles.itemtext}>{item.email}</Text>
-            </View>
-          );
+          if(item.grupo == this.props.grupo){
+            if(item.active == false){
+              return (
+                <View key={index}>
+                  <Text style={styles.itemtext}>{item.email}</Text> 
+                  <Button title="Aceptar" onPress={() => this.submit(item.email)} />
+                </View>
+              );
+            } else {
+              return (
+                <View key={index}>
+                  <Text style={styles.itemtext}>{item.email}</Text>
+                </View>
+              );
+            }
+          }
         })}
       </View>
     );

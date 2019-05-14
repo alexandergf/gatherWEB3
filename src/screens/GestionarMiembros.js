@@ -4,10 +4,11 @@ import ItemComponent from '../components/ItemComponent';
 import { db } from '../config';
 let itemsRef = db.ref('/Users');
 export default class GestionarMiembros extends Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       this.state = {
-        items: []
+        items: [],
+        idGrupo: this.props.navigation.getParam('group', 'NO_GRUP'),
       }
     }
     componentDidMount() {
@@ -24,7 +25,7 @@ export default class GestionarMiembros extends Component {
             <Text style={styles.title}>GESTIONAR MIEMBROS</Text>
             <View style={styles.list}>
             {this.state.items.length > 0 ? (
-                <ItemComponent items={this.state.items} />
+                <ItemComponent items={this.state.items} grupo={this.state.idGrupo} />
               ) : (
                 <Text>No items</Text>
               )}

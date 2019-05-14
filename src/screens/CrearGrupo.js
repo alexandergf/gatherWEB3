@@ -29,7 +29,6 @@ let modifyUser = (state) => {
 }
 
 export default class CrearGrupo extends Component{
-
   constructor(){
     super();
     this.state = {
@@ -55,7 +54,6 @@ export default class CrearGrupo extends Component{
     });
   };
   submit = () => {
-    //alert(this.state.user.email);
     var look = false;
     this.state.items.map((item, index) => {
       if (item.name == this.state.name && item.id == this.state.id){
@@ -67,7 +65,7 @@ export default class CrearGrupo extends Component{
       addGrup(this.state);
       modifyUser(this.state);
       alert('Grupo Registrado correctamente');
-      this.props.navigation.replace('Mapa');
+      this.props.navigation.replace('Mapa',{g: this.state.id});
     }
   };
   render() {

@@ -25,7 +25,7 @@ export default class Loading extends Component {
           items.map((item, index) => {
             if (user.email == item.email && item.active == true){
               look=true;
-              this.props.navigation.replace('Mapa');
+              this.props.navigation.replace('Mapa',{g: item.grupo});
             } 
           })
           if (look == false){
