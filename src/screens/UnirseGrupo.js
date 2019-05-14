@@ -8,52 +8,49 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHighlight} from 'react-native';
-
+import firebase from 'firebase'; 
 import { db } from '../config';
-let acceptedRef = db.ref('/Accepted');
-let groupRef = db.ref('/Group').equalTo(1);
-/*
-var rootRef = firebase.database().ref();
-var ref = rootRef.child("items");
-ref.once("value").then(function(snapshot) {
-   snapshot.forEach(function(childSnapshot) {
-     var key = childSnapshot.key;
-     var childData = childSnapshot.val();
-   });
-});
-*/
+let modifyUser = (state) => {
+  db.ref('/Users/'+state.currentUser.uid).update({
+    grupo: state.idGroup
+  })
+}
+let groupRef = db.ref('/Group');
 export default class UnirseGrupo extends Component{
   constructor(){
     super();
     this.state = {
       idGroup: '',
-      email: '',
-      admin: ''
+      currentUser: [],
+      items: []
     }
   }
-  prova = () => {
-    groupRef.once("value").then(function(snapshot){
-      snapshot.forEach(function(childSnapshot){
-        let key = childSnapshot.key;
-        let childData = childSnapshot.val().name;
-        alert(key + childData)
-      })
-    })
-      //snapshot.val() !== null  //  equalTo().
+  componentDidMount() {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+    groupRef.on('value', snapshot => {
+      let data = snapshot.val();
+      let items = Object.values(data);
+      this.setState({ items });
+    });
   }
   handleChange = e => {
     this.setState({
-      id: e.nativeEvent.text
+      idGroup: e.nativeEvent.text
     });
   };
   submit = () => {
     var look = false;
-    
-    if(look == true){
-      
-      alert('Usuario añadido correctamente');
-    } else {
-      alert('Grupo no existente');
+    this.state.items.map((item, index) => {
+      if (item.id == this.state.idGroup){
+        look=true;
+        modifyUser(this.state);
+        alert('Peticion enviada correctamente.');
+        this.props.navigation.replace('HomeLogIn');
+      } 
+    })
+    if(look == false){
+      alert("Id de grupo no existente")
     }
   };
   render() {
@@ -66,7 +63,7 @@ export default class UnirseGrupo extends Component{
              />
         </View>
         <View style={styles.uBut}>
-          <TouchableHighlight style={styles.touch} onPress={this.prova}>
+          <TouchableHighlight style={styles.touch} onPress={this.submit}>
             <Text style={styles.uText}>UNIRSE AL GRUPO</Text>
           </TouchableHighlight> 
         </View>

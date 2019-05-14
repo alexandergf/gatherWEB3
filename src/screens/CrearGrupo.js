@@ -21,8 +21,7 @@ let addGrup = (state) => {
 let groupRef = db.ref('/Group');
 
 let modifyUser = (state) => {
-    db.ref('/Users/'+state.currentUser.uid).set({
-      email: state.currentUser.email,
+    db.ref('/Users/'+state.currentUser.uid).update({
       active: true,
       admin: true,
       grupo: state.id
@@ -56,7 +55,7 @@ export default class CrearGrupo extends Component{
     });
   };
   submit = () => {
-    alert(this.state.user.email);
+    //alert(this.state.user.email);
     var look = false;
     this.state.items.map((item, index) => {
       if (item.name == this.state.name && item.id == this.state.id){
