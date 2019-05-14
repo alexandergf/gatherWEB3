@@ -9,6 +9,9 @@ export default class Home extends Component {
       idGroup: this.props.navigation.getParam('g', 'NO_GRUP'),
     }
   }
+  componentDidMount() {
+
+  }
   render() {
     return (
         <View style={styles.container}>
@@ -20,6 +23,7 @@ export default class Home extends Component {
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
         }}
+        showsUserLocation={true}
         >
         </MapView>
         <View style={styles.bottomMap}>

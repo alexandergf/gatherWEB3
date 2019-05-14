@@ -1,8 +1,37 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Button, View, Text, StyleSheet, TouchableHighlight, Image, TouchableOpacity } from 'react-native';
 import MapView from 'react-native-maps';
+import ImagePicker from 'react-native-image-picker';
+const options = {
+  title: 'Select Image',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
 export default class PuntoEncuentro extends Component {
-  
+  imagePhoto = () => {
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+    
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+    
+        this.setState({
+          avatarSource: source,
+        });
+      }
+    });
+  }
   render() {
     return (
         <View style={styles.container}>
@@ -16,19 +45,12 @@ export default class PuntoEncuentro extends Component {
         }}
         >
         </MapView>
-        
-          <Image style={styles.camera} source={require ('../images/camera-logo.png')} />
-                  
+          <TouchableOpacity style={styles.touch} activeOpacity={.5} onPress={() => this.imagePhoto()}>
+            <Image style={styles.camera} source={require ('../images/camera-logo.png')} />
+          </TouchableOpacity>    
         </View>
     )
   }
-  takePicture = async function() {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
-    }
-  };
 }
 const styles = StyleSheet.create({
     container: {
@@ -48,5 +70,10 @@ const styles = StyleSheet.create({
       width: 100,
       height: 100,
       resizeMode: 'contain'
+    },
+    touch: {
+      width: 100,
+      height: 100,
+      flex: 1,
     }
    });
