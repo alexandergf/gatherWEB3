@@ -17,7 +17,13 @@ let addGrup = (state) => {
       id: state.id,
     });
 };
-
+let addPoint = (state) => {
+  db.ref('/pEncuentro').push({
+    grupo: state.id,
+    lat: null,
+    lon: null
+  });
+};
 let groupRef = db.ref('/Group');
 
 let modifyUser = (state) => {
@@ -63,6 +69,7 @@ export default class CrearGrupo extends Component{
     })
     if(look == false){
       addGrup(this.state);
+      addPoint(this.state);
       modifyUser(this.state);
       alert('Grupo Registrado correctamente');
       this.props.navigation.replace('Mapa',{g: this.state.id});

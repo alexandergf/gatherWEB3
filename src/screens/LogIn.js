@@ -41,7 +41,7 @@ export default class LogIn extends Component {
         });        
       }
       onLoginSuccess = () => {
-        this.props.navigation.replace('HomeLogIn')
+        this.props.navigation.replace('Loading')
       }
       onRegSuccess = (id) => {
         db.ref('Users/'+id).set({
@@ -50,7 +50,7 @@ export default class LogIn extends Component {
           active: false,
           admin: false,
         }); 
-        this.props.navigation.replace('HomeLogIn')
+        this.props.navigation.replace('Loading')
       }
       onLoginFailure = (errorMessage) => {
         alert(errorMessage);
