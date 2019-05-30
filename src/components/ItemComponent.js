@@ -23,6 +23,7 @@ export default class ItemComponent extends Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     grupo: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   };
 
   submit = (id) => {
@@ -33,7 +34,7 @@ export default class ItemComponent extends Component {
     return (
       <View style={styles.itemsList}>
         {this.props.items.map((item, index) => {
-          if(item.grupo == this.props.grupo){
+          if(item.grupo == this.props.grupo && item.email != this.props.name){
             if(item.active == false){
               return (
                 <View key={index}>

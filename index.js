@@ -1,7 +1,8 @@
 /**
  * @format
  */
-import {AppRegistry} from 'react-native';
+import {AppRegistry, ImageBackground, StyleSheet} from 'react-native';
+import React from 'react';  
 import App from './App';
 import {name as appName} from './app.json';
 import {
@@ -17,6 +18,7 @@ import Mapa from './src/screens/Mapa';
 import PuntoEncuentro from './src/screens/PuntoEncuentro';
 import GestionarMiembros from './src/screens/GestionarMiembros';
 import Loading from './src/screens/Loading';
+import invitaFriends from './src/screens/invitaFriends';
 
 const AppNavigator = createStackNavigator(
     {
@@ -28,12 +30,18 @@ const AppNavigator = createStackNavigator(
         Mapa,
         PuntoEncuentro,
         GestionarMiembros,
-        Loading
+        Loading,
+        invitaFriends
     },
     {
         initialRouteName: 'Loading',
         defaultNavigationOptions: {
-           // headerBackImage: require('./src/images/BannerTop-06.png'),
+           headerBackground: (
+            <ImageBackground
+              style={StyleSheet.absoluteFill}
+              source={require('./src/images/BannerTop-06.png')}
+            />
+          ),
         },
     }
 );

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight, Dimensions } from 'react-native';
+import { Button, View, Text, StyleSheet, TouchableHighlight, Dimensions, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import firebase from 'firebase';  
 import { db } from '../config';
 import { Marker } from 'react-native-maps';
 import {API_KEY_MAPS} from 'react-native-dotenv';
+import logo from '../images/Logo.png';
 const LATITUD_DELTA = 0.0922;
 const LONGITUD_DELTA = 0.0922;
 let pEncRef = db.ref('/pEncuentro');
+
 export default class Home extends Component {
   constructor(props){
     super(props);
@@ -28,6 +30,13 @@ export default class Home extends Component {
       items: [],
     }
   }
+  infoUser = () => {
+    db.ref('/Users').on('value', snapshot => {
+      let data = snapshot.val();
+      let items = Object.values(data);
+      this.setState({ items });
+    });
+  }
   componentDidMount = () => {
     pEncRef.on('value', snapshot => {
       let data = snapshot.val();
@@ -45,21 +54,19 @@ export default class Home extends Component {
     });
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
-    
-    db.ref('/Users').on('value', snapshot => {
-      let data = snapshot.val();
-      let items = Object.values(data);
-      this.setState({ items });
-           
-    });
+    this.infoUser();
+    db.ref('/Users').on('child_changed', snapshot => {
+      var changedPost = snapshot.val();
 
+      this.infoUser();
+    })
   }
   markers = () => {
     let markers = [];
     for (let i = 0;i<this.state.items.length; i++){
       this.state.items.map((item, index) => {
         if(item.active == true && item.email != this.state.currentUser.email && item.grupo == this.state.idGroup){
-          markers.push(<Marker coordinate= {this.markerFriends(item)} />);
+          markers.push(<Marker coordinate= {this.markerFriends(item)} title={item.email}></Marker>);
         }
      })
     } 
@@ -75,7 +82,7 @@ export default class Home extends Component {
           longitudeDelta: LONGITUD_DELTA
         }
       })
-    },(error) => alert(error.message),{enableHightAccuracy: true, timeout: 2000})
+    },(error) => alert(error.message),{enableHightAccuracy: true, timeout: 2000});
     this.watchID = navigator.geolocation.watchPosition((position) => {
       const newRegion = {
         latitude: position.coords.latitude,
@@ -88,7 +95,7 @@ export default class Home extends Component {
         lat: newRegion.latitude,
         lon: newRegion.longitude,
       })
-    })
+    });
   }
 
   marker = () => {
@@ -134,7 +141,7 @@ export default class Home extends Component {
         <View style={styles.bottomMap}>
           <View style={styles.grup}>
             <Text style={styles.grupText}>GRUPO: {this.state.idGroup}</Text>
-            <TouchableHighlight style={styles.gTouch} onPress={()=>this.props.navigation.navigate('GestionarMiembros',{group: this.state.idGroup})}>
+            <TouchableHighlight style={styles.gTouch} onPress={()=>this.props.navigation.navigate('GestionarMiembros',{group: this.state.idGroup, email: this.state.currentUser.email})}>
               <Text style={styles.gText}>GESTIONAR GRUPO</Text>
             </TouchableHighlight> 
           </View>
