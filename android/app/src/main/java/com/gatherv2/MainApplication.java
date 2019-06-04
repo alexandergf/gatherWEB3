@@ -1,7 +1,9 @@
 package com.gatherv2;
 
 import android.app.Application;
-
+//aqui
+import com.rnfs.RNFSPackage; // <------- add package
+// hasta aqui
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -33,7 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
             new ImagePickerPackage(),
             //new RNCameraPackage(),
             new RNGestureHandlerPackage(),
-            new MapsPackage()
+            new MapsPackage(),
+            new RNFSPackage() // <---------- add package
       );
     }
 

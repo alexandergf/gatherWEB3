@@ -14,14 +14,14 @@ export default class Home extends Component {
       };
   render() {
     return (
-        <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
+        <View style={styles.container}>
             <Image style={styles.logo} source={require ('../images/Logo.png')} />
             <View style={styles.butt}>
                 <TouchableHighlight style={styles.iTouch} onPress={() => this.props.navigation.navigate('LogIn')}>
                     <Text style={styles.iniText}>EMPEZAR</Text>
                 </TouchableHighlight> 
             </View> 
-        </ImageBackground>
+        </View>
     )
   }
 }
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: '100%',
         resizeMode: 'cover',
+        backgroundColor: '#fff'
     },
     logo: {
         width: 200,
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     butt: {
         margin: 20,
         width: '50%',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        backgroundColor: 'rgba(255, 0, 0, 0.5)',
     },
     iniText: {
         textAlign: 'center',

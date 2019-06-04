@@ -9,7 +9,6 @@ export default class LogIn extends Component {
         this.state = {
           email: '',
           pass: '',
-          //currentUser: []
         }
       }
       static navigationOptions = ({ navigation }) => {
@@ -57,7 +56,7 @@ export default class LogIn extends Component {
       }
   render() {
     return (
-      <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.input}>
           <Text style={styles.inputText}>Email</Text>
           <TextInput style={styles.Textinput}
@@ -77,7 +76,7 @@ export default class LogIn extends Component {
             <Text style={styles.iniText}>REGISTRARSE</Text>
           </TouchableHighlight> 
         </View>
-      </ImageBackground>
+      </View>
     );
   }
 }
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
     resizeMode: 'cover',
+    backgroundColor: '#fff'
   },
   input: {
     textAlign: 'left',
@@ -105,12 +105,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     width: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 0, 0, 0.5)',
   },
   rBut: {
     marginTop: 10,
     width: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 0, 0, 0.5)',
     borderRadius: 20,
   },
   iniText: {

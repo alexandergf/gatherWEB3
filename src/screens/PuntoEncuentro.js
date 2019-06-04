@@ -5,16 +5,16 @@ import { Marker } from 'react-native-maps';
 import ImagePicker from 'react-native-image-picker';
 import firebase from 'firebase';  
 import { db } from '../config';
+import vision from "react-cloud-vision-api";
+import {API_KEY_MAPS} from 'react-native-dotenv';
+vision.init({ auth: API_KEY_MAPS});
 
 const LATITUD_DELTA = 0.0922;
 const LONGITUD_DELTA = 0.0922;
 const options = {
   title: 'Select Image',
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-  
+  takePhotoButtonTitle: 'Utilizar camara',
+  chooseFromLibraryButtonTitle: 'Escoger foto de la libreria'  
 };
 export default class PuntoEncuentro extends Component {
   constructor(props){
@@ -31,8 +31,56 @@ export default class PuntoEncuentro extends Component {
           longitude: null,
       },
       idGroup: this.props.navigation.getParam('g', 'NO_GRUP'),
+      avatarSource: null,
+      googleResponse: null,
     }
   }
+
+  submitToGoogle = async () => {
+
+    try {
+      
+      let body = JSON.stringify({
+        "requests": [
+          {
+            "image": {
+              "content": this.state.avatarSource
+            },
+            "features": [
+              {
+                "type": "IMAGE_PROPERTIES",
+                "maxResults": 1
+              }
+            ]
+          }
+        ]
+      });
+      let response = await fetch(
+        "https://vision.googleapis.com/v1/images:annotate?key=" +
+          API_KEY_MAPS,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: body
+        }
+      );
+      let responseJson = await response.json();
+      console.log(responseJson);
+      this.setState({
+        googleResponse: responseJson,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+ 
+
+
+
+
   componentWillMount = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
@@ -55,7 +103,7 @@ export default class PuntoEncuentro extends Component {
     })
   }
   imagePhoto = () => {
-    ImagePicker.launchCamera(options, (response) => {
+    ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
     
       if (response.didCancel) {
@@ -68,16 +116,16 @@ export default class PuntoEncuentro extends Component {
         const source = { uri: response.uri };
     
         // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+         //const source = { uri: 'data:image/jpeg;base64,' + response.data };
     
         this.setState({
-          avatarSource: source,
+          avatarSource: response.data,
         });
+        this.submitToGoogle();
       }
     });
   }
   getMarkerPosition = (e) => {
-    //alert(e.longitude " " e.latitude);
     this.setState({
       secondPosition: {
         latitude: e.latitude,
@@ -114,7 +162,6 @@ export default class PuntoEncuentro extends Component {
                 coordinate={origin}
                 onDragEnd={(e) => this.getMarkerPosition(e.nativeEvent.coordinate)}
               />
-              
             </MapView> : null }
             <Button onPress={this.confirmPos} title="Confirmar" />
           <TouchableOpacity style={styles.touch} activeOpacity={.5} onPress={() => this.imagePhoto()}>
@@ -138,7 +185,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#999'
     },
     camera: {
-      //flex: 1,
       width: 100,
       height: 100,
       resizeMode: 'contain'
