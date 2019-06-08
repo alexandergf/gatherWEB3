@@ -22,7 +22,7 @@ let modifyUser = (id) => {
 export default class ItemComponent extends Component {  
   static propTypes = {
     items: PropTypes.array.isRequired,
-    grupo: PropTypes.string.isRequired,
+    grupo: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   };
 

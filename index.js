@@ -38,9 +38,9 @@ const AppNavigator = createStackNavigator(
         //titleStyle: {alignSelf: 'center', flex:2},
         headerTitleStyle: { 
           alignSelf:'center', 
-          flex:2,
           color: '#FFF',
           textAlign:'center',
+          marginLeft: 95,
           //justifyContent: 'space-between',
         },
         headerTintColor: '#FFF',

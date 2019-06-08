@@ -46,7 +46,7 @@ export default class PuntoEncuentro extends Component {
             },
             "features": [
               {
-                "type": "IMAGE_PROPERTIES",
+                "type": "LANDMARK_DETECTION",
                 "maxResults": 1
               }
             ]
@@ -66,9 +66,26 @@ export default class PuntoEncuentro extends Component {
         }
       );
       let responseJson = await response.json();
+      
       console.log(responseJson);
+
       this.setState({
         googleResponse: responseJson,
+      });
+      
+      this.state.googleResponse.responses.map((res,index) => {
+        res.landmarkAnnotations.map((rep,index) => {
+          rep.locations.map((dir,index)=> {
+            console.log(dir.latLng.latitude);
+            console.log(dir.latLng.longitude);
+            this.setState({
+              secondPosition: {
+                latitude: dir.latLng.latitude,
+                longitude: dir.latLng.longitude,
+              }
+            })
+          })
+        })
       });
     } catch (error) {
       console.log(error);
@@ -128,19 +145,23 @@ export default class PuntoEncuentro extends Component {
     })
   }
   confirmPos = () => {
-    db.ref('/pEncuentro').on('value', snapshot => {
-      let data = snapshot.val();
-      Object.keys(data).forEach(key => {
-        if(data[key].grupo == this.state.idGroup){
-          db.ref('/pEncuentro/'+key).update({
-            lat: this.state.secondPosition.latitude,
-            lon: this.state.secondPosition.longitude,
-          })
-        }
+    if(this.state.secondPosition.latitude != null && this.state.secondPosition.longitude != null){
+      db.ref('/pEncuentro').on('value', snapshot => {
+        let data = snapshot.val();
+        Object.keys(data).forEach(key => {
+          if(data[key].grupo == this.state.idGroup){
+            db.ref('/pEncuentro/'+key).update({
+              lat: this.state.secondPosition.latitude,
+              lon: this.state.secondPosition.longitude,
+            })
+          }
+        });
+        
       });
-      
-    });
-    this.props.navigation.replace('Mapa', {g: this.state.idGroup});
+      this.props.navigation.replace('Mapa', {g: this.state.idGroup});
+    } else {
+      alert("Error de posición");
+    }
   }
   render() {
     var origin={latitude: this.state.initialPosition.latitude,longitude: this.state.initialPosition.longitude}
@@ -161,7 +182,7 @@ export default class PuntoEncuentro extends Component {
               <Image style={styles.camera} source={require ('../images/camera-logo.png')} />
             </TouchableOpacity>
             <View style={styles.confirm}>
-              <TouchableHighlight style={styles.coTouch} onPress={()=>this.confirmPos}>
+              <TouchableHighlight style={styles.coTouch} onPress={()=>this.confirmPos()}>
                 <Text style={styles.confirmarText}>CONFIRMAR</Text>
               </TouchableHighlight> 
             </View>   

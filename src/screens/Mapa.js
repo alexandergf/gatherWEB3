@@ -47,7 +47,7 @@ export default class Home extends Component {
                   text: 'SI',
                   onPress: () => {
                     firebase.auth().signOut().then(
-                      () =>alert('Sign out succesfully.'),
+                      () =>alert('Sesión cerrada correctamente.'),
                       navigation.replace('Home')
                     ).catch(function(error) {
                       alert(error);
@@ -105,7 +105,7 @@ export default class Home extends Component {
     //for (let i = 0;i<this.state.items.length; i++){
       this.state.items.map((item, index) => {
         if(item.active == true && item.email != this.state.currentUser.email && item.grupo == this.state.idGroup){
-          markers.push(<Marker coordinate= {this.markerFriends(item)} title={item.email} key={item.email+index}></Marker>);
+          markers.push(<Marker coordinate= {this.markerFriends(item)} title={item.email} key={item.email+index} icon={require('../images/user.png')} /*pinColor={'violet'}*/ />);
         }
      })
     //} 
@@ -252,6 +252,6 @@ const styles = StyleSheet.create({
     ImageIconStyle: {
       width: 30,
       height: 30,
-      marginLeft: 10
+      marginLeft: 10,
     }
    });

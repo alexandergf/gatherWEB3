@@ -1,5 +1,5 @@
 import React, { Component } from 'react';  
-import { View, Text, StyleSheet, TextInput, TouchableHighlight, ImageBackground, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import firebase from 'firebase';  
 import { db } from '../config';
 import { navigation } from 'react-navigation';
@@ -12,16 +12,24 @@ export default class Loading extends Component {
       comprueba: this.props.navigation.getParam('user', 'NO_USER'),
     }
   }
+  static navigationOptions = () => {
+    return{
+    headerTitleStyle: { 
+      alignSelf:'center', 
+      color: '#FFF',
+      textAlign:'center',
+      marginLeft: 151,
+      //justifyContent: 'space-between',
+    },
+  }
+  }
   componentWillMount() {
     if(this.state.comprueba == 'NO_USER'){
       firebase.auth().onAuthStateChanged(user => {
         if(user == null){
           this.props.navigation.replace('Home')
         } else {
-          () => componentDidUpdate = () => {
-            this.setState({ comprueba: user.email });
-          };
-          this.check(this.state.comprueba);
+          this.check(user.email);
         }
       })
     } else {
