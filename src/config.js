@@ -1,6 +1,7 @@
 import Firebase from 'firebase';  
+import {API_KEY_MAPS} from 'react-native-dotenv';
 let config = {  
-  apiKey: 'AIzaSyDHf2h5HMoKswLeZpwKKU23R9vQhR6ug6c',
+  apiKey: API_KEY_MAPS,
   authDomain: 'gatherv2.firebaseapp.com',
   databaseURL: 'gatherv2.firebaseio.com',
   projectId: 'gatherv2',

@@ -55,7 +55,7 @@ export default class UnirseGrupo extends Component{
   };
   render() {
     return (
-      <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.input}>
           <Text style={styles.inputText}>Id del grupo:</Text>
           <TextInput style={styles.Textinput}
@@ -67,7 +67,7 @@ export default class UnirseGrupo extends Component{
             <Text style={styles.uText}>UNIRSE AL GRUPO</Text>
           </TouchableHighlight> 
         </View>
-      </ImageBackground>
+      </View>
       );
     }
   }
@@ -78,13 +78,15 @@ export default class UnirseGrupo extends Component{
       justifyContent: 'center',
       height: '100%',
       resizeMode: 'cover',
+      backgroundColor: '#FFF'
     },
     input: {
       textAlign: 'left',
-      width: '50%',
+      width: '80%',
+      marginBottom: 20
     },
     inputText: {
-      color: '#ffffff',
+      color: 'rgb(255, 41, 57)',
       opacity: 0.8,
       marginTop: 5,
       marginBottom: 5,
@@ -94,11 +96,13 @@ export default class UnirseGrupo extends Component{
       backgroundColor: '#ffffff',
       color: 'grey',
       textAlign: 'center',
+      borderWidth: 0.5,
+      borderColor: 'rgb(255, 41, 57)',
     },
     uBut: {
       margin: 20,
-      width: '40%',
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      width: '60%',
+      backgroundColor: 'rgb(255, 41, 57)',
     },
     uText: {
       textAlign: 'center',

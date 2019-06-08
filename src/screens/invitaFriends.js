@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight, TextInput } from 'react-native';
-import ItemComponent from '../components/ItemComponent';
+import { View, Text, StyleSheet, TouchableHighlight, TextInput } from 'react-native';
 import { db } from '../config';
 let itemsRef = db.ref('/Users');
 export default class GestionarMiembros extends Component {
@@ -48,13 +47,13 @@ export default class GestionarMiembros extends Component {
     render() {
         return (
           <View style={styles.container}>
-          <View style={styles.listaMiembros}>
-            <Text style={styles.title}>Invitar amigos</Text>
-          </View>
+            <View style={styles.listaMiembros}>
+              <Text style={styles.title}>Invitar amigos</Text>
+            </View>
             <View style={styles.cGrup}>
-            <Text style={styles.inputText}>Amigo</Text>
-            <TextInput style={styles.Textinput}
-              onChangeText={this.onChangeName} />
+              <Text style={styles.inputText}>Amigo</Text>
+              <TextInput style={styles.Textinput}
+                onChangeText={this.onChangeName} />
               <TouchableHighlight style={styles.cTouch} onPress={()=>this.submit()}>
                 <Text style={styles.cText}>INVITAR AMIGOS AL GRUPO</Text>
               </TouchableHighlight>
@@ -69,29 +68,40 @@ export default class GestionarMiembros extends Component {
           alignItems: 'center',
           //justifyContent: 'center',
           height: '100%',
-          backgroundColor: '#FF5C4F',
+          backgroundColor: '#FFF',
         },
         title: {
           marginTop: 20,
           marginBottom: 25,
           fontSize: 22,
           fontWeight: 'bold',
-          color: '#fff'
+          color: 'rgb(255, 41, 57)'
         },
         list: {
           height: '50%',
           
         },
         cGrup: {
-          width: '60%',
+          width: '80%',
           
         },
         cTouch: {
           padding: 20,
-          backgroundColor: 'rgba(255,255,255,0.3)',
+          backgroundColor: 'rgb(255, 41, 57)',
+          borderRadius: 5,
         },
         cText: {
           textAlign: 'center',
           color: '#ffffff',
+        },
+        inputText: {
+          color: 'rgb(255, 41, 57)',
+        },
+        Textinput: {
+          padding: 3,
+          backgroundColor: '#ffffff',
+          borderColor: 'rgb(255, 41, 57)',
+          borderWidth: 0.5,
+          marginBottom: 20,
         },
       });

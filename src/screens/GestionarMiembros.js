@@ -47,14 +47,14 @@ export default class GestionarMiembros extends Component {
           alignItems: 'center',
           //justifyContent: 'center',
           height: '100%',
-          backgroundColor: '#FF5C4F',
+          backgroundColor: '#FFF',
         },
         title: {
           marginTop: 20,
           marginBottom: 25,
           fontSize: 22,
           fontWeight: 'bold',
-          color: '#fff'
+          color: 'rgb(255, 41, 57)'
         },
         list: {
           height: '50%',
@@ -66,7 +66,8 @@ export default class GestionarMiembros extends Component {
         },
         cTouch: {
           padding: 20,
-          backgroundColor: 'rgba(255,255,255,0.3)',
+          backgroundColor: 'rgb(255, 41, 57)',
+          borderRadius: 5,
         },
         cText: {
           textAlign: 'center',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, View, Text, StyleSheet, TouchableHighlight, Button } from 'react-native';
+import { Alert, View, Text, StyleSheet, TouchableHighlight, TouchableOpacity,Image } from 'react-native';
 import firebase from 'firebase';  
 import { db } from '../config';
 import navigation from 'react-navigation';
@@ -10,28 +10,50 @@ export default class Home extends Component {
       currentUser: []
     }
   }
+  static navigationOptions = ({navigation}) => {
+    return {
+        headerLeft: (
+          <TouchableOpacity style={styles.ImageIconStyle} activeOpacity={0.5} onPress={() => {
+            Alert.alert(
+              'Cerrar sesión',
+              'Estás seguro de que quieres cerrar la sesión?',
+              [
+                {
+                  text: 'NO',
+                  onPress: ()=> console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'SI',
+                  onPress: () => {
+                    firebase.auth().signOut().then(function() {
+                        () =>alert('Sign out succesfully.');
+                        navigation.replace('Home')
+                      }
+                    ).catch(function(error) {
+                      alert(error);
+                    });
+                  }
+                },
+                {cancelable: false},
+              ]
+            );
+          }}>
+              <Image
+              source={require('../images/signOut.png')}
+              style={styles.ImageIconStyle}
+              />
+          </TouchableOpacity>
+        ),
+    };
+  };
   componentDidMount() {
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
-    //alert(this.state.currentUser.uid);
-    //alert(this.state.currentUser)
-    //<Text>Hi! {this.state.currentUser.uid}</Text>
-  }
-  signoutFunc = () => {
-    firebase.auth().signOut().then(
-     //alert('Sign out succesfully.')
-      this.signOutSuccess()
-    ).catch(function(error) {
-      alert(error);
-    });  
-  }
-  signOutSuccess = () => {
-    alert('Sign out succesfully.')
-    this.props.navigation.replace('Loading')
   }
     render() {
         return (
-          <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
+          <View style={styles.container}>
             <View style={styles.cGrup}>
               <TouchableHighlight style={styles.cTouch} onPress={() => this.props.navigation.navigate('CrearGrupo')}>
                 <Text style={styles.cText}>CREAR GRUPO</Text>
@@ -42,8 +64,7 @@ export default class Home extends Component {
                 <Text style={styles.uText}>UNIRSE A GRUPO</Text>
               </TouchableHighlight>
             </View>
-            <Button onPress={this.signoutFunc} title="Sign Out" />
-          </ImageBackground>
+          </View>
           );
         }
       }
@@ -54,6 +75,7 @@ export default class Home extends Component {
           justifyContent: 'center',
           height: '100%',
           resizeMode: 'cover',
+          backgroundColor: '#FFF'
         },
         cGrup: {
           width: '50%',
@@ -65,11 +87,13 @@ export default class Home extends Component {
         },
         cTouch: {
           padding: 20,
-          backgroundColor: 'rgba(255,255,255,0.3)',
+          backgroundColor: 'rgb(255, 41, 57)',
+          borderRadius: 10,
         },
         uTouch: {
           padding: 20,
-          backgroundColor: 'rgba(255,0,0,1)',
+          backgroundColor: 'rgb(255, 41, 57)',
+          borderRadius: 10,
         },
         cText: {
           textAlign: 'center',
@@ -79,4 +103,9 @@ export default class Home extends Component {
           textAlign: 'center',
           color: '#ffffff',
         },
+        ImageIconStyle: {
+          width: 30,
+          height: 30,
+          marginLeft: 10
+        }
       });

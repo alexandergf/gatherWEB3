@@ -1,8 +1,6 @@
-/**
- * @format
- */
 import {AppRegistry, ImageBackground, StyleSheet} from 'react-native';
-import React from 'react';  
+import React from 'react'; 
+import { YellowBox } from 'react-native'; 
 import App from './App';
 import {name as appName} from './app.json';
 import {
@@ -34,16 +32,27 @@ const AppNavigator = createStackNavigator(
         invitaFriends
     },
     {
-        initialRouteName: 'Loading',
-        defaultNavigationOptions: {
-           headerBackground: (
-            <ImageBackground
-              style={StyleSheet.absoluteFill}
-              source={require('./src/images/BannerTop-06.png')}
-            />
-          ),
+      initialRouteName: 'Loading',
+      defaultNavigationOptions: {
+        title: 'gather',
+        //titleStyle: {alignSelf: 'center', flex:2},
+        headerTitleStyle: { 
+          alignSelf:'center', 
+          flex:2,
+          color: '#FFF',
+          textAlign:'center',
+          //justifyContent: 'space-between',
         },
+        headerTintColor: '#FFF',
+        headerBackground: (
+          <ImageBackground
+            style={StyleSheet.absoluteFill}
+            source={require('./src/images/BannerTop-05.jpg')}
+          />
+        ),
+      },
     }
 );
 const app = createAppContainer(AppNavigator);
 AppRegistry.registerComponent(appName, () => app);
+YellowBox.ignoreWarnings(['Setting a timer']);

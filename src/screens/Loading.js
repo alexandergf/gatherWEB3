@@ -2,46 +2,56 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableHighlight, ImageBackground, ActivityIndicator } from 'react-native';
 import firebase from 'firebase';  
 import { db } from '../config';
-import { Navigation } from 'react-navigation';
+import { navigation } from 'react-navigation';
 let userRef = db.ref('/Users');
 export default class Loading extends Component {  
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      items: []
+      items: [],
+      comprueba: this.props.navigation.getParam('user', 'NO_USER'),
     }
   }
-  componentDidMount() {
-    
-    firebase.auth().onAuthStateChanged(user => {
-      //this.props.navigation.replace(user==null ? 'Home' : 'HomeLogIn')
-      if(user == null){
-        this.props.navigation.replace('Home')
-      } else {
-        userRef.on('value', snapshot => {
-          let data = snapshot.val();
-          let items = Object.values(data);
-          var look = false;
-          items.map((item, index) => {
-            if (user.email == item.email && item.active == true){
-              look=true;
-              this.props.navigation.replace('Mapa',{g: item.grupo});
-            } 
-          })
-          if (look == false){
-            this.props.navigation.replace('HomeLogIn');
-          }
-        });
-      }
-    })
+  componentWillMount() {
+    if(this.state.comprueba == 'NO_USER'){
+      firebase.auth().onAuthStateChanged(user => {
+        if(user == null){
+          this.props.navigation.replace('Home')
+        } else {
+          () => componentDidUpdate = () => {
+            this.setState({ comprueba: user.email });
+          };
+          this.check(this.state.comprueba);
+        }
+      })
+    } else {
+      this.check(this.state.comprueba);
+    }
   }   
+
+  check = (user) => {
+    userRef.on('value', snapshot => {
+      let data = snapshot.val();
+      let items = Object.values(data);
+      var look = false;
+      items.map((item, index) => {
+        if (user == item.email && item.active == true){
+          look=true;
+          this.props.navigation.replace('Mapa',{g: item.grupo});
+        } 
+      })
+      if (look == false){
+        this.props.navigation.replace('HomeLogIn');
+      }
+    });
+  }
 
   render() {
     return (
-      <ImageBackground source={require('../images/fondo.png')} style={styles.container}>
-        <Text>Loading</Text>
-        <ActivityIndicator size="large" />
-      </ImageBackground>
+      <View style={styles.container}>
+        <Text style={styles.loadText} >Loading</Text>
+        <ActivityIndicator size="large" color="rgb(255, 41, 57)" />
+      </View>
     );
   }
 }
@@ -50,6 +60,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
-    backgroundColor: '#FF5C4F',
+    backgroundColor: '#FFF',
   },
+  loadText: {
+    color: 'rgb(255, 41, 57)'
+  }
 });

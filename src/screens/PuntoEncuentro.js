@@ -37,9 +37,7 @@ export default class PuntoEncuentro extends Component {
   }
 
   submitToGoogle = async () => {
-
     try {
-      
       let body = JSON.stringify({
         "requests": [
           {
@@ -76,10 +74,6 @@ export default class PuntoEncuentro extends Component {
       console.log(error);
     }
   };
- 
-
-
-
 
   componentWillMount = () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -163,10 +157,14 @@ export default class PuntoEncuentro extends Component {
                 onDragEnd={(e) => this.getMarkerPosition(e.nativeEvent.coordinate)}
               />
             </MapView> : null }
-            <Button onPress={this.confirmPos} title="Confirmar" />
-          <TouchableOpacity style={styles.touch} activeOpacity={.5} onPress={() => this.imagePhoto()}>
-            <Image style={styles.camera} source={require ('../images/camera-logo.png')} />
-        </TouchableOpacity>   
+            <TouchableOpacity style={styles.touch} activeOpacity={0} onPress={() => this.imagePhoto()}>
+              <Image style={styles.camera} source={require ('../images/camera-logo.png')} />
+            </TouchableOpacity>
+            <View style={styles.confirm}>
+              <TouchableHighlight style={styles.coTouch} onPress={()=>this.confirmPos}>
+                <Text style={styles.confirmarText}>CONFIRMAR</Text>
+              </TouchableHighlight> 
+            </View>   
         </View>
     )
   }
@@ -174,12 +172,12 @@ export default class PuntoEncuentro extends Component {
 const styles = StyleSheet.create({
     container: {
       height: '100%',
-      backgroundColor: '#FF5C4F',
+      backgroundColor: '#FFF',
       alignItems: 'center',
     },
     map: {
       height: '65%',
-      width: '100%',
+      width: '95%',
       margin: 2,
       marginTop: 5,
       backgroundColor: '#999'
@@ -187,11 +185,23 @@ const styles = StyleSheet.create({
     camera: {
       width: 100,
       height: 100,
-      resizeMode: 'contain'
+      resizeMode: 'contain',
     },
     touch: {
       width: 100,
       height: 100,
-      flex: 1,
-    }
+    },
+    confirm: {
+      backgroundColor: 'rgb(255, 41, 57)',
+      borderRadius: 5,
+    },
+    coTouch: {
+      paddingVertical: 20,
+      paddingHorizontal: 80,
+    }, 
+    confirmarText: {
+      textAlign: 'center',
+      color: '#ffffff',
+      fontSize: 11
+    },
    });

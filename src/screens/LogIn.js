@@ -11,12 +11,6 @@ export default class LogIn extends Component {
           pass: '',
         }
       }
-      static navigationOptions = ({ navigation }) => {
-        const {state} = navigation;
-        return {
-          title: `Login`,
-        };
-      };
       onChangeEmail = (text) => {
         this.setState({ email: text});
       }
@@ -26,7 +20,7 @@ export default class LogIn extends Component {
       submitReg = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass)
         .then((res) => {
-          this.onRegSuccess(res.user.uid);
+          () =>this.onRegSuccess(res.user.uid);
         })
         .catch((error) => {
           this.onLoginFailure(error);
@@ -34,13 +28,13 @@ export default class LogIn extends Component {
       }
       submitIni = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.pass)
-        .then(this.onLoginSuccess())
+        .then(()=>this.onLoginSuccess())
         .catch((error) => {
           this.onLoginFailure(error);
         });        
       }
       onLoginSuccess = () => {
-        this.props.navigation.replace('Loading')
+        this.props.navigation.replace('Loading',{user: this.state.email});
       }
       onRegSuccess = (id) => {
         db.ref('Users/'+id).set({
@@ -49,7 +43,7 @@ export default class LogIn extends Component {
           active: false,
           admin: false,
         }); 
-        this.props.navigation.replace('Loading')
+        this.props.navigation.replace('HomeLogIn');
       }
       onLoginFailure = (errorMessage) => {
         alert(errorMessage);
@@ -90,28 +84,30 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'left',
-    width: '50%',
+    width: '80%',
   },
   inputText: {
-    color: '#ffffff',
+    color: 'rgb(255, 41, 57)',
     opacity: 80,
   },
   Textinput: {
     padding: 3,
     backgroundColor: '#ffffff',
-    color: 'grey',
+    borderColor: 'rgb(255, 41, 57)',
+    borderWidth: 0.5,
+    marginBottom: 15,
   },
   iniBut: {
-    borderRadius: 20,
-    marginTop: 20,
-    width: '50%',
-    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+    borderRadius: 10,
+    marginTop: 50,
+    width: '80%',
+    backgroundColor: 'rgb(255, 41, 57)',
   },
   rBut: {
     marginTop: 10,
-    width: '50%',
-    backgroundColor: 'rgba(255, 0, 0, 0.5)',
-    borderRadius: 20,
+    width: '80%',
+    backgroundColor: 'rgb(255, 41, 57)',
+    borderRadius: 10,
   },
   iniText: {
     textAlign: 'center',

@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
-import {ImageBackground, Button, View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import {ImageBackground,View, Text, StyleSheet, TouchableHighlight, Image } from 'react-native';
 
 export default class Home extends Component {
-    static navigationOptions = () => {
+    static navigationOptions = ({ navigation }) => {
+        const {state} = navigation;
         return {
-            //headerTitleStyle: { alignSelf: 'center' },
-            headerTitleStyle: { 
-                textAlign:"center", 
-                flex:1 
-            },
-            title: 'Gather',
+            header: null,
         };
       };
   render() {
     return (
-        <View style={styles.container}>
+        <ImageBackground style={styles.container} source={require('../images/background.jpg')}>
             <Image style={styles.logo} source={require ('../images/Logo.png')} />
             <View style={styles.butt}>
                 <TouchableHighlight style={styles.iTouch} onPress={() => this.props.navigation.navigate('LogIn')}>
                     <Text style={styles.iniText}>EMPEZAR</Text>
                 </TouchableHighlight> 
             </View> 
-        </View>
+        </ImageBackground>
     )
   }
 }
@@ -41,11 +37,12 @@ const styles = StyleSheet.create({
     butt: {
         margin: 20,
         width: '50%',
-        backgroundColor: 'rgba(255, 0, 0, 0.5)',
+        backgroundColor: 'rgb(255, 255, 255)',
+        borderRadius: 5,
     },
     iniText: {
         textAlign: 'center',
-        color: '#ffffff',
+        color: 'rgb(255,0,0)',
     },
     iTouch: {
         padding: 20,

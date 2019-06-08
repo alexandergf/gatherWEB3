@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, TouchableHighlight, Dimensions, Image } from 'react-native';
+import { Alert,View, Text, StyleSheet, TouchableHighlight, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import firebase from 'firebase';  
 import { db } from '../config';
 import { Marker } from 'react-native-maps';
 import {API_KEY_MAPS} from 'react-native-dotenv';
-import logo from '../images/Logo.png';
 const LATITUD_DELTA = 0.0922;
 const LONGITUD_DELTA = 0.0922;
 let pEncRef = db.ref('/pEncuentro');
@@ -30,6 +29,44 @@ export default class Home extends Component {
       items: [],
     }
   }
+
+  static navigationOptions = ({navigation}) => {
+    return {
+        headerLeft: (
+          <TouchableOpacity style={styles.ImageIconStyle} activeOpacity={0.5} onPress={() => {
+            Alert.alert(
+              'Cerrar sesión',
+              'Estás seguro de que quieres cerrar la sesión?',
+              [
+                {
+                  text: 'NO',
+                  onPress: ()=> console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'SI',
+                  onPress: () => {
+                    firebase.auth().signOut().then(
+                      () =>alert('Sign out succesfully.'),
+                      navigation.replace('Home')
+                    ).catch(function(error) {
+                      alert(error);
+                    });
+                  }
+                },
+                {cancelable: false},
+              ]
+            );
+          }}>
+              <Image
+              source={require('../images/signOut.png')}
+              style={styles.ImageIconStyle}
+              />
+          </TouchableOpacity>
+        ),
+    };
+  };
+
   infoUser = () => {
     db.ref('/Users').on('value', snapshot => {
       let data = snapshot.val();
@@ -37,6 +74,7 @@ export default class Home extends Component {
       this.setState({ items });
     });
   }
+
   componentDidMount = () => {
     pEncRef.on('value', snapshot => {
       let data = snapshot.val();
@@ -61,17 +99,19 @@ export default class Home extends Component {
       this.infoUser();
     })
   }
+
   markers = () => {
     let markers = [];
-    for (let i = 0;i<this.state.items.length; i++){
+    //for (let i = 0;i<this.state.items.length; i++){
       this.state.items.map((item, index) => {
         if(item.active == true && item.email != this.state.currentUser.email && item.grupo == this.state.idGroup){
-          markers.push(<Marker coordinate= {this.markerFriends(item)} title={item.email}></Marker>);
+          markers.push(<Marker coordinate= {this.markerFriends(item)} title={item.email} key={item.email+index}></Marker>);
         }
      })
-    } 
+    //} 
     return markers;
   }
+
   componentWillMount = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
@@ -104,12 +144,14 @@ export default class Home extends Component {
       longitude: this.state.markerPosition.longitude,
     }
   }
+
   markerFriends = (item) => {
     return {
       latitude: item.lat,
       longitude: item.lon,
     }
   }
+
   origin = () => {
     return {
       latitude: this.state.initialPosition.latitude,
@@ -158,11 +200,11 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container: {
       height: '100%',
-      backgroundColor: '#FF5C4F',
+      backgroundColor: '#FFF',
       alignItems: 'center',
     },
     map: {
-      flex: 1,
+      //flex: 1,
       height: '65%',
       width: '95%',
       margin: 2,
@@ -180,13 +222,13 @@ const styles = StyleSheet.create({
     },
     grupText: {
       marginRight: 15,
-      color: '#fff',
+      color: 'rgb(255, 41, 57)',
     },
     gTouch: {
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      backgroundColor: 'rgb(255, 41, 57)',
       paddingHorizontal: 12,
-      paddingVertical: 7
-
+      paddingVertical: 7,
+      borderRadius: 5,
     },
     gText: {
       textAlign: 'center',
@@ -195,15 +237,21 @@ const styles = StyleSheet.create({
     },
     savePoint: {
       marginTop: 20,
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      backgroundColor: 'rgb(255, 41, 57)',
+      borderRadius: 5,
     },
     spTouch: {
       paddingVertical: 20,
-      paddingHorizontal: 80
+      paddingHorizontal: 80,
     },
     savePointText: {
       textAlign: 'center',
       color: '#ffffff',
       fontSize: 11
+    },
+    ImageIconStyle: {
+      width: 30,
+      height: 30,
+      marginLeft: 10
     }
    });
