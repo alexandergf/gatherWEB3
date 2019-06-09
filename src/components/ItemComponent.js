@@ -109,7 +109,7 @@ class ItemComponent extends Component {
                 </View>
               );
             }
-          } else if(item.email != this.props.name) {
+          } else if(item.grupo == this.props.grupo && item.email != this.props.name) {
             return(
             <View key={index} style={styles.row}>
               <Text style={styles.itemtext}>{item.email}</Text>

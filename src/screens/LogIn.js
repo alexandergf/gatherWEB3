@@ -20,7 +20,7 @@ export default class LogIn extends Component {
       submitReg = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.pass)
         .then((res) => {
-          () =>this.onRegSuccess(res.user.uid);
+          this.onRegSuccess(res.user.uid);
         })
         .catch((error) => {
           this.onLoginFailure(error);
