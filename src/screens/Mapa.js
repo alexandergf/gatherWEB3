@@ -237,6 +237,7 @@ const styles = StyleSheet.create({
     grupText: {
       marginRight: 15,
       color: 'rgb(255, 41, 57)',
+      fontFamily: 'Proxima-Net'
     },
     gTouch: {
       backgroundColor: 'rgb(255, 41, 57)',
@@ -247,7 +248,8 @@ const styles = StyleSheet.create({
     gText: {
       textAlign: 'center',
       color: '#ffffff',
-      fontSize: 11
+      fontSize: 11,
+      fontFamily: 'Proxima-Net'
     },
     savePoint: {
       marginTop: 20,
@@ -261,7 +263,8 @@ const styles = StyleSheet.create({
     savePointText: {
       textAlign: 'center',
       color: '#ffffff',
-      fontSize: 11
+      fontSize: 11,
+      fontFamily: 'Proxima-Net'
     },
     ImageIconStyle: {
       width: 30,

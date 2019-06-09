@@ -78,7 +78,8 @@ export default class GestionarMiembros extends Component {
           marginBottom: 25,
           fontSize: 22,
           fontWeight: 'bold',
-          color: 'rgb(255, 41, 57)'
+          color: 'rgb(255, 41, 57)',
+          fontFamily: 'Proxima-Net'
         },
         list: {
           height: '50%',
@@ -98,5 +99,6 @@ export default class GestionarMiembros extends Component {
         cText: {
           textAlign: 'center',
           color: '#ffffff',
+          fontFamily: 'Proxima-Net'
         },
       });

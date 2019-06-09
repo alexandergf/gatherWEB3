@@ -85,10 +85,12 @@ const styles = StyleSheet.create({
   input: {
     textAlign: 'left',
     width: '80%',
+    fontFamily: 'Proxima-Net'
   },
   inputText: {
     color: 'rgb(255, 41, 57)',
     opacity: 80,
+    fontFamily: 'Proxima-Net'
   },
   Textinput: {
     padding: 3,
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(255, 41, 57)',
     borderWidth: 0.5,
     marginBottom: 15,
+    fontFamily: 'Proxima-Net'
   },
   iniBut: {
     borderRadius: 10,
@@ -112,6 +115,7 @@ const styles = StyleSheet.create({
   iniText: {
     textAlign: 'center',
     color: '#ffffff',
+    fontFamily: 'Proxima-Net'
   },
   touch: {
     paddingHorizontal: 20,

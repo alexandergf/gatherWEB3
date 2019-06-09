@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginBottom: 10,
     color: 'rgb(255, 41, 57)',
+    fontFamily: 'Proxima-Net'
   },
   cTouch: {
     backgroundColor: 'rgb(255, 41, 57)',
@@ -147,7 +148,8 @@ const styles = StyleSheet.create({
   cText: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 11
+    fontSize: 11,
+    fontFamily: 'Proxima-Net'
   },
 });
 export default withNavigation(ItemComponent);

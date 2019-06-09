@@ -75,7 +75,8 @@ export default class GestionarMiembros extends Component {
           marginBottom: 25,
           fontSize: 22,
           fontWeight: 'bold',
-          color: 'rgb(255, 41, 57)'
+          color: 'rgb(255, 41, 57)',
+          fontFamily: 'Proxima-Net'
         },
         list: {
           height: '50%',
@@ -93,9 +94,11 @@ export default class GestionarMiembros extends Component {
         cText: {
           textAlign: 'center',
           color: '#ffffff',
+          fontFamily: 'Proxima-Net'
         },
         inputText: {
           color: 'rgb(255, 41, 57)',
+          fontFamily: 'Proxima-Net'
         },
         Textinput: {
           padding: 3,
@@ -103,5 +106,6 @@ export default class GestionarMiembros extends Component {
           borderColor: 'rgb(255, 41, 57)',
           borderWidth: 0.5,
           marginBottom: 20,
+          fontFamily: 'Proxima-Net'
         },
       });

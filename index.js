@@ -40,6 +40,7 @@ const AppNavigator = createStackNavigator(
           color: '#FFF',
           textAlign:'center',
           marginLeft: 95,
+          fontFamily: 'Proxima-Net'
           //justifyContent: 'space-between',
         },
         headerTintColor: '#FFF',

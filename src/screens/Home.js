@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     iniText: {
         textAlign: 'center',
         color: 'rgb(255,0,0)',
+        fontFamily: 'Proxima-Net'
     },
     iTouch: {
         padding: 20,

@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
     confirmarText: {
       textAlign: 'center',
       color: '#ffffff',
-      fontSize: 11
+      fontSize: 11,
+      fontFamily: 'Proxima-Net'
     },
    });

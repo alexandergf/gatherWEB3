@@ -98,10 +98,12 @@ export default class Home extends Component {
         cText: {
           textAlign: 'center',
           color: '#ffffff',
+          fontFamily: 'Proxima-Net'
         },
         uText: {
           textAlign: 'center',
           color: '#ffffff',
+          fontFamily: 'Proxima-Net'
         },
         ImageIconStyle: {
           width: 30,

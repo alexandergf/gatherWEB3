@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   loadText: {
-    color: 'rgb(255, 41, 57)'
+    color: 'rgb(255, 41, 57)',
+    fontFamily: 'Proxima-Net'
   }
 });

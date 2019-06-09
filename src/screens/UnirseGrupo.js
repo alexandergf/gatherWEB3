@@ -90,6 +90,7 @@ export default class UnirseGrupo extends Component{
       opacity: 0.8,
       marginTop: 5,
       marginBottom: 5,
+      fontFamily: 'Proxima-Net'
     },
     Textinput: {
       padding: 3,
@@ -98,6 +99,7 @@ export default class UnirseGrupo extends Component{
       textAlign: 'center',
       borderWidth: 0.5,
       borderColor: 'rgb(255, 41, 57)',
+      fontFamily: 'Proxima-Net'
     },
     uBut: {
       margin: 20,
@@ -108,6 +110,7 @@ export default class UnirseGrupo extends Component{
       textAlign: 'center',
       fontSize: 12,
       color: '#ffffff',
+      fontFamily: 'Proxima-Net'
     },
     touch: {
       padding: 20,

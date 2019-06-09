@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, TextInput, View,TouchableHighlight} from 'react-native';
 import { db } from '../config';
 import firebase from 'firebase';  
-import { YellowBox } from 'react-native'; 
 
 let addGrup = (state) => {  
     db.ref('/Group').push({
@@ -26,7 +25,6 @@ let modifyUser = (state) => {
       grupo: state.id
     })
 }
-YellowBox.ignoreWarnings(['warningWithoutStack']);
 export default class CrearGrupo extends Component{
   constructor(){
     super();
@@ -120,6 +118,7 @@ export default class CrearGrupo extends Component{
       opacity: 0.8,
       marginTop: 5,
       marginBottom: 5,
+      fontFamily: 'Proxima-Net'
     },
     Textinput: {
       padding: 3,
@@ -128,6 +127,7 @@ export default class CrearGrupo extends Component{
       textAlign: 'center',
       borderWidth: 0.5,
       borderColor: 'rgb(255, 41, 57)',
+      fontFamily: 'Proxima-Net'
     },
     Textinput1: {
       padding: 3,
@@ -136,6 +136,7 @@ export default class CrearGrupo extends Component{
       textAlign: 'left',
       borderWidth: 0.5,
       borderColor: 'rgb(255, 41, 57)',
+      fontFamily: 'Proxima-Net'
     },
     cBut: {
       margin: 20,
@@ -146,6 +147,7 @@ export default class CrearGrupo extends Component{
     cText: {
       textAlign: 'center',
       color: '#ffffff',
+      fontFamily: 'Proxima-Net'
     },
     touch: {
       padding: 20,
