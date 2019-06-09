@@ -1,8 +1,8 @@
 import React, { Component } from 'react';  
-import { View, Text, StyleSheet,Button } from 'react-native';  
+import { View, Text, StyleSheet,TouchableHighlight,Alert } from 'react-native';  
 import PropTypes from 'prop-types';
 import { db } from '../config';
-import firebase from 'firebase';  
+import { withNavigation } from 'react-navigation';
 let modifyUser = (id) => {
   const rootRef = db.ref();
   const oneReef = rootRef.child('Users').orderByChild('email').equalTo(id);
@@ -19,36 +19,102 @@ let modifyUser = (id) => {
     })
   });
 }
-export default class ItemComponent extends Component {  
+
+class ItemComponent extends Component {  
   static propTypes = {
     items: PropTypes.array.isRequired,
     grupo: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    admin: PropTypes.bool.isRequired
   };
 
   submit = (id) => {
-    modifyUser(id);
+    Alert.alert(
+      'Aceptar usuario',
+      'Quieres aceptar a '+id+' en el grupo?',
+      [
+        {
+          text: 'NO',
+          onPress: ()=> console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'SI',
+          onPress: () => {
+            modifyUser(id);
+          }
+        },
+        {cancelable: false},
+      ]
+    );
+  }
+
+  changeAdmin = (id) => {
+    Alert.alert(
+      'Cambiar administrador',
+      'Quieres hacer a '+id+' administrador?',
+      [
+        {
+          text: 'NO',
+          onPress: ()=> console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'SI',
+          onPress: () => {
+            db.ref('/Users').on('value', snapshot => {
+              let data = snapshot.val();
+              Object.keys(data).forEach(key => {
+                if(data[key].grupo == this.props.grupo && id == data[key].email){
+                  db.ref('/Users/'+key).update({
+                    admin: true
+                  });
+                }
+                if(data[key].admin == true && id != data[key].email){
+                  db.ref('/Users/'+key).update({
+                    admin: false
+                  });
+                }
+              });
+            });
+            this.props.navigation.replace('Loading');
+          }
+        },
+        {cancelable: false},
+      ]
+    );
   }
 
   render() {
     return (
       <View style={styles.itemsList}>
         {this.props.items.map((item, index) => {
-          if(item.grupo == this.props.grupo && item.email != this.props.name){
+          if(item.grupo == this.props.grupo && item.email != this.props.name && this.props.admin == true){
             if(item.active == false){
               return (
-                <View key={index}>
+                <View key={index} style={styles.row}>
                   <Text style={styles.itemtext}>{item.email}</Text> 
-                  <Button title="Aceptar" onPress={() => this.submit(item.email)} />
+                  <TouchableHighlight style={styles.cTouch} onPress={()=>this.submit(item.email)}>
+                    <Text style={styles.cText}>ACEPTAR</Text>
+                  </TouchableHighlight>
                 </View>
               );
-            } else {
+            } else{
               return (
-                <View key={index}>
+                <View key={index} style={styles.row}>
                   <Text style={styles.itemtext}>{item.email}</Text>
+                  <TouchableHighlight style={styles.cTouch} onPress={()=>this.changeAdmin(item.email)}>
+                    <Text style={styles.cText}>ADMIN</Text>
+                  </TouchableHighlight>
                 </View>
               );
             }
+          } else if(item.email != this.props.name) {
+            return(
+            <View key={index} style={styles.row}>
+              <Text style={styles.itemtext}>{item.email}</Text>
+            </View>
+            );
           }
         })}
       </View>
@@ -61,11 +127,27 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  row:{
+    flexDirection:'row',
+  },
   itemtext: {
     fontSize: 16,
-    //fontWeight: 'bold',
     textAlign: 'left',
     marginBottom: 10,
-    color: 'rgb(255, 41, 57)'
-  }
+    color: 'rgb(255, 41, 57)',
+  },
+  cTouch: {
+    backgroundColor: 'rgb(255, 41, 57)',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    marginLeft: 3,
+    marginBottom: 10,
+  },
+  cText: {
+    textAlign: 'center',
+    color: '#ffffff',
+    fontSize: 11
+  },
 });
+export default withNavigation(ItemComponent);

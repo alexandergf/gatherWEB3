@@ -65,7 +65,7 @@ export default class CrearGrupo extends Component{
       addPoint(this.state);
       modifyUser(this.state);
       alert('Grupo Registrado correctamente');
-      this.props.navigation.replace('Mapa',{g: this.state.id});
+      this.props.navigation.replace('Mapa',{g: this.state.id,user: this.state.name});
     }
   };
 

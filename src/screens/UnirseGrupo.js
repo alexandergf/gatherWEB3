@@ -7,7 +7,7 @@
 */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput, View, ImageBackground,TouchableHighlight} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput, View, TouchableHighlight} from 'react-native';
 import firebase from 'firebase'; 
 import { db } from '../config';
 let modifyUser = (state) => {

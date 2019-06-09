@@ -10,6 +10,7 @@ export default class GestionarMiembros extends Component {
         items: [],
         idGrupo: this.props.navigation.getParam('group', 'NO_GRUP'),
         email: this.props.navigation.getParam('email', 'NO_EMAIL'),
+        admin: this.props.navigation.getParam('admin', 'NO_ADMIN'),
       }
     }
     componentDidMount() {
@@ -19,6 +20,26 @@ export default class GestionarMiembros extends Component {
         this.setState({ items });
       });
     }
+
+    exit = () => {
+      if(this.state.admin == false){
+        db.ref('/Users').on('value', snapshot => {
+          let data = snapshot.val();
+          Object.keys(data).forEach(key => {
+            if(data[key].grupo == this.state.idGrupo && this.state.email == data[key].email){
+              db.ref('/Users/'+key).update({
+                active: false,
+                grupo:null,
+              });
+              this.props.navigation.replace('HomeLogIn');
+            }
+          });
+        });
+      }else{
+        alert('Para dejar el grupo primero deja de ser administrador.');
+      }
+      
+    }
     render() {
         return (
           <View style={styles.container}>
@@ -26,7 +47,7 @@ export default class GestionarMiembros extends Component {
             <Text style={styles.title}>GESTIONAR MIEMBROS</Text>
             <View style={styles.list}>
             {this.state.items.length > 0 ? (
-                <ItemComponent items={this.state.items} grupo={this.state.idGrupo} name={this.state.email}/>
+                <ItemComponent items={this.state.items} grupo={this.state.idGrupo} name={this.state.email} admin={this.state.admin} />
               ) : (
                 <Text>No items</Text>
               )}
@@ -35,6 +56,9 @@ export default class GestionarMiembros extends Component {
             <View style={styles.cGrup}>
               <TouchableHighlight style={styles.cTouch} onPress={()=>this.props.navigation.navigate('invitaFriends',{group: this.state.idGrupo})}>
                 <Text style={styles.cText}>INVITAR AMIGOS AL GRUPO</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.cTouch} onPress={()=>this.exit()}>
+                <Text style={styles.cText}>SALIR DEL GRUPO</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -58,13 +82,15 @@ export default class GestionarMiembros extends Component {
         },
         list: {
           height: '50%',
+          width: '80%',
           
         },
         cGrup: {
-          width: '60%',
+          width: '70%',
           
         },
         cTouch: {
+          marginBottom: 15,
           padding: 20,
           backgroundColor: 'rgb(255, 41, 57)',
           borderRadius: 5,

@@ -17,7 +17,6 @@ import PuntoEncuentro from './src/screens/PuntoEncuentro';
 import GestionarMiembros from './src/screens/GestionarMiembros';
 import Loading from './src/screens/Loading';
 import invitaFriends from './src/screens/invitaFriends';
-
 const AppNavigator = createStackNavigator(
     {
         Home,

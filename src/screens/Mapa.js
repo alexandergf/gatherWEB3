@@ -27,6 +27,9 @@ export default class Home extends Component {
       },
       currentUser: [],
       items: [],
+      admin: false,
+      flag: this.props.navigation.getParam('flag', 'NO_FLAG'),
+      user: this.props.navigation.getParam('user', 'NO_USER'),
     }
   }
 
@@ -72,6 +75,11 @@ export default class Home extends Component {
       let data = snapshot.val();
       let items = Object.values(data);
       this.setState({ items });
+      items.map((item, index) => {
+        if(item.admin == true && item.email == this.state.user){
+          this.setState({admin: true});
+        }
+     })
     });
   }
 
@@ -91,7 +99,7 @@ export default class Home extends Component {
       })
     });
     const { currentUser } = firebase.auth()
-    this.setState({ currentUser })
+    this.setState({ currentUser });
     this.infoUser();
     db.ref('/Users').on('child_changed', snapshot => {
       var changedPost = snapshot.val();
@@ -102,13 +110,11 @@ export default class Home extends Component {
 
   markers = () => {
     let markers = [];
-    //for (let i = 0;i<this.state.items.length; i++){
       this.state.items.map((item, index) => {
         if(item.active == true && item.email != this.state.currentUser.email && item.grupo == this.state.idGroup){
           markers.push(<Marker coordinate= {this.markerFriends(item)} title={item.email} key={item.email+index} icon={require('../images/user.png')} /*pinColor={'violet'}*/ />);
         }
      })
-    //} 
     return markers;
   }
 
@@ -158,8 +164,19 @@ export default class Home extends Component {
       longitude: this.state.initialPosition.longitude,
     }
   }
-
+  adminbtn = () => {
+    return(
+      <TouchableHighlight style={styles.gTouch} onPress={()=>this.props.navigation.navigate('GestionarMiembros',{group: this.state.idGroup, email: this.state.currentUser.email, admin: this.state.admin})}>
+        <Text style={styles.gText}>{this.state.admin == true ? "GESTIONAR GRUPO" : "INFO GRUPO" }</Text>
+      </TouchableHighlight>
+    );
+  }
   render = () => {
+    if(this.state.flag == true && this.state.flag != 'NO_FLAG'){
+      this.setState({
+        admin: false,
+      });
+    }
     return (
         <View style={styles.container}>
         {this.state.initialPosition.latitude ? <MapView
@@ -179,13 +196,10 @@ export default class Home extends Component {
           />: null }
           {this.state.markerPosition.longitude ? <Marker coordinate= {this.marker()} /> : null} 
         </MapView> : null }
-        
         <View style={styles.bottomMap}>
           <View style={styles.grup}>
             <Text style={styles.grupText}>GRUPO: {this.state.idGroup}</Text>
-            <TouchableHighlight style={styles.gTouch} onPress={()=>this.props.navigation.navigate('GestionarMiembros',{group: this.state.idGroup, email: this.state.currentUser.email})}>
-              <Text style={styles.gText}>GESTIONAR GRUPO</Text>
-            </TouchableHighlight> 
+            {this.adminbtn()}
           </View>
           <View style={styles.savePoint}>
             <TouchableHighlight style={styles.spTouch} onPress={() => this.props.navigation.navigate('PuntoEncuentro',{g: this.state.idGroup})}>

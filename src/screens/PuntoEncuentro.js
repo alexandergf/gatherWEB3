@@ -156,7 +156,6 @@ export default class PuntoEncuentro extends Component {
             })
           }
         });
-        
       });
       this.props.navigation.replace('Mapa', {g: this.state.idGroup});
     } else {
