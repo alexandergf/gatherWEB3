@@ -167,7 +167,7 @@ export default class Home extends Component {
   adminbtn = () => {
     return(
       <TouchableHighlight style={styles.gTouch} onPress={()=>this.props.navigation.navigate('GestionarMiembros',{group: this.state.idGroup, email: this.state.currentUser.email, admin: this.state.admin})}>
-        <Text style={styles.gText}>{this.state.admin == true ? "GESTIONAR GRUPO" : "INFO GRUPO" }</Text>
+        <Text style={styles.gText}>GESTIONAR GRUPO</Text>
       </TouchableHighlight>
     );
   }
